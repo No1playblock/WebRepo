@@ -2,9 +2,35 @@
 <html>
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>태그실습</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
 </head>
-<body>
+<body> <nav class="navbar navbar-expand-lg navbar-dark bg-success navbar-fixed-top">
+  <a class="navbar-brand" href="../myblog/myblog.html">Home</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item" onmouseover="menu_over(this)" onmouseout = "menu_out(this);">
+        <a class="nav-link" href="https://www.naver.com">Profile <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item" onmouseover="menu_over(this)" onmouseout = "menu_out(this);">
+        <a class="nav-link" href="../html/p.html">메뉴2</a>
+      </li>
+      <li class="nav-item" onmouseover="menu_over(this)" onmouseout = "menu_out(this);">
+        <a class="nav-link " href="dom.html">메뉴3</a>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0" id="LoginForm">
+      <input class="form-control mr-sm-2" type="text" placeholder="ID" aria-label="ID" id="id" required>
+      <input class="form-control mr-sm-2" type="password" placeholder="PWD" aria-label="PWD" id="pwd" required>
+      <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Login</button>
+    </form>
+  </div>
+</nav>
 	<p>너에게 묻는다</p>
 	<p>안도현</p>
 	<p>연탄재 함부로 발로 차지 마라<br> 너는 누구에게 한번이라도 뜨거운 사람이었느냐</p>
