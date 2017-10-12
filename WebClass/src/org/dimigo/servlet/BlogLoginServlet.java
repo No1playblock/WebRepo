@@ -1,6 +1,7 @@
 package org.dimigo.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.dimigo.vo.UserVO;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 /**
  * Servlet implementation class BlogLoginServlet
@@ -32,7 +36,7 @@ public class BlogLoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		RequestDispatcher rd = request.getRequestDispatcher("jsp/login.jsp");
+		RequestDispatcher rd = request.getRequestDispatcher("myblog/myblog.jsp");
 		rd.forward(request, response);
 	}
 	
@@ -41,34 +45,51 @@ public class BlogLoginServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		request.setCharacterEncoding("utf-8");
-		String id = request.getParameter("id");
-		String pwd = request.getParameter("pwd");
-		System.out.printf("id : %s, pwd: %s\n", id, pwd);
-		
-		response.setContentType("text/html;charset=utf-8");	
-		
-		//id, pwd 정합성 체크
-		
-		
-		if(id=="test@naver,com"){
-			//세션에 사용자 정보 생성
-			HttpSession session =request.getSession();
-			session.setAttribute("id",  id);
-			UserVO user = new UserVO();
-			user.setId(id);
-			user.setName("한종걸");
-			user.setNickname("학생");
-			
-			session.setAttribute("user",  user);
-			
-			RequestDispatcher rd = request.getRequestDispatcher("jsp/home.jsp");
-			rd.forward(request, response);
-		}else{
-			request.setAttribute("msg",  "error");
-			RequestDispatcher rd = request.getRequestDispatcher("jsp/login.jsp");
-			rd.forward(request, response);
-		}
+		// TODO Auto-generated method stub
+				request.setCharacterEncoding("utf-8");
+				String id = request.getParameter("id");
+				String pwd = request.getParameter("pwd");
+				System.out.printf("id : %s, pwd: %s\n", id, pwd);
+				
+				boolean check;
+				if(id.equals("test@naver.com"))
+					check = true;
+				else
+					check = false;
+				
+				
+				
+				response.setContentType("application/json;charset=utf-8");
+				PrintWriter out = response.getWriter();
+				
+				
+				//JSON Simple Library
+				Gson gson = new Gson();
+				JsonObject json = new JsonObject();
+				json.addProperty("error",  check);
+				String object = gson.toJson(json);
+				System.out.println(object);
+				out.write(object);
+				out.close();
+				
+				if(check){
+					//세션에 사용자 정보 생성
+					HttpSession session =request.getSession();
+					session.setAttribute("id",  id);
+					UserVO user = new UserVO();
+					user.setId(id);
+					user.setName("한종걸");
+					user.setNickname("학생");
+					
+					session.setAttribute("user",  user);
+					
+					RequestDispatcher rd = request.getRequestDispatcher("myblog/myblog.jsp");
+					rd.forward(request, response);
+				}else{
+					request.setAttribute("msg",  "error");
+					RequestDispatcher rd = request.getRequestDispatcher("myblog/myblog.jsp");
+					rd.forward(request, response);
+				}
 	}
 
 }

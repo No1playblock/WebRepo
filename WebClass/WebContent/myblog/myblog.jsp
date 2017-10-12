@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+    <%@ page import = "org.dimigo.vo.UserVO" %>
 <!DOCTYPE html>
 <html lang="ko">
   <head>
@@ -10,9 +11,9 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
   
-  <script src = "../js/menu.js"></script>
+  <script src = "/WebClass/js/menu.js"></script>
   
-  <link rel="stylesheet" type = "text/css" href = "../css/container.css">
+  <link rel="stylesheet" type = "text/css" href = "/WebClass/css/container.css">
   
   </head>
   <body>
@@ -36,13 +37,38 @@
         <a class="nav-link " href="like.html">like</a>
       </li>
     </ul>
-    <form class="form-inline my-2 my-lg-0" id="LoginForm">
+    
+    <% 
+		UserVO user = (UserVO)session.getAttribute("user");
+		if(user ==null){
+			
+	%>
+    <form class="form-inline my-2 my-lg-0" id="LoginForm" >
       <input class="form-control mr-sm-2" type="text" placeholder="ID" aria-label="ID" id="id" required>
       <input class="form-control mr-sm-2" type="password" placeholder="PWD" aria-label="PWD" id="pwd" required>
       <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Login</button>
     </form>
         <button class="btn btn-outline-warning my-2 my-sm-0" type="button" onclick = "location.href = 'register.html'">Register</button>
-
+	<a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="bd-versions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	      </a>
+	      <% }else{%>
+	      
+	      <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+	    <li class="nav-item dropdown">
+	      <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="bd-versions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+	    	<%= user.getName() + "님" %>
+	      </a>
+	      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
+	      <form action = "/WebClass/bloglogout" method = "post">
+	      	<button type="submit" class="dropdown-item">Sign out</button>
+	       	<div class="dropdown-divider"></div>
+	        <button type="button" class="dropdown-item">Action1</button>
+	        <button type="button" class="dropdown-item">Action2</button>
+	        </form>
+	      </div>
+	    </li>
+	    </ul>
+	    <% }%>
   </div>
 </nav>
 
@@ -77,8 +103,47 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
   
   
-  <script src = "../js/login.js"></script>
-  
+  <script>
+	<%-- 회원 가입이 실패한 경우 처리 추가 --%>
+	<%--
+		var myModal = $('#myModal');
+		myModal.find('.modal-title').text('Sign Up Error');
+		myModal.find('.modal-body').text('회원 가입 시 오류가 발생하였습니다.');
+		myModal.modal();
+	--%>
+	$(document).ready(function()	{
+		  
+		  $('#LoginForm').submit(function (event){
+			  //submit되는 것을 막기
+			  event.preventDefault();
+			  
+			  
+		  		//id, pwd 값 가져오기
+		  		//console.log("start");
+			  var id = $("#id").val();		//document.getElementById("id").value
+			  var pwd = $("#pwd").val();
+		 	 console.log(id, pwd);
+		 	 
+		 	 //서버로 post 방식 전송(ajax)
+		 	 $.post("/WebClass/bloglogin",
+		 			 {id: id, pwd: pwd},
+		 			 function(data){
+		 				 
+		 				if(data.error){
+		 					location.href = "/WebClass/myblog/myblog.jsp"
+		 				}else { 
+		 					// 서버로부터 응답을 받으면
+		 					// alert(data.form.id + '님 로그인 되었습니다');
+							var myModal = $('#myModal');
+							myModal.modal();
+							myModal.find('.modal-body').text('회원 가입시 오류가 발생하였습니다');
+		 				}
+		 			 });
+		 	 
+		  });
+	});
+	
+</script>
   
   
   

@@ -5,7 +5,7 @@ $(document).ready(function()	{
 	  
 	  $('#LoginForm').submit(function (event){
 		  //submit되는 것을 막기
-		  event.preventDefault();
+		  
 		  
 		  
 	  		//id, pwd 값 가져오기
