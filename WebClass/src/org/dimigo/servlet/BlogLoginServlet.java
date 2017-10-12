@@ -1,7 +1,6 @@
 package org.dimigo.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,20 +12,17 @@ import javax.servlet.http.HttpSession;
 
 import org.dimigo.vo.UserVO;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-
 /**
- * Servlet implementation class LoginServlet
+ * Servlet implementation class BlogLoginServlet
  */
-@WebServlet("/login")
-public class LoginServlet extends HttpServlet {
+@WebServlet("/bloglogin")
+public class BlogLoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public LoginServlet() {
+    public BlogLoginServlet() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -36,17 +32,15 @@ public class LoginServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		//response.getWriter().append("Served at: ").append(request.getContextPath());
-		//login.jsp 포워딩
 		RequestDispatcher rd = request.getRequestDispatcher("jsp/login.jsp");
 		rd.forward(request, response);
 	}
+	
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		request.setCharacterEncoding("utf-8");
 		String id = request.getParameter("id");
 		String pwd = request.getParameter("pwd");
@@ -55,16 +49,16 @@ public class LoginServlet extends HttpServlet {
 		response.setContentType("text/html;charset=utf-8");	
 		
 		//id, pwd 정합성 체크
-		boolean result = true;
 		
-		if(result){
+		
+		if(id=="test@naver,com"){
 			//세션에 사용자 정보 생성
 			HttpSession session =request.getSession();
 			session.setAttribute("id",  id);
 			UserVO user = new UserVO();
 			user.setId(id);
-			user.setName("홍길동");
-			user.setNickname("의적");
+			user.setName("한종걸");
+			user.setNickname("학생");
 			
 			session.setAttribute("user",  user);
 			
@@ -75,38 +69,6 @@ public class LoginServlet extends HttpServlet {
 			RequestDispatcher rd = request.getRequestDispatcher("jsp/login.jsp");
 			rd.forward(request, response);
 		}
-	}
-	
-	protected void doPost2(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		request.setCharacterEncoding("utf-8");
-		String id = request.getParameter("id");
-		String pwd = request.getParameter("pwd");
-		System.out.printf("id : %s, pwd: %s\n", id, pwd);
-		
-		response.setContentType("application/json;charset=utf-8");
-		PrintWriter out = response.getWriter();
-		
-		
-//		out.println("{");
-//		out.println("\"id\":" + "\"" + id + "\"");
-//		out.println("}");
-		
-		//JSON Simple Library
-		Gson gson = new Gson();
-		JsonObject json = new JsonObject();
-		json.addProperty("id",  id);
-		String object = gson.toJson(json);
-		System.out.println(object);
-		out.write(object);
-		
-		
-		out.close();
-		
-		
-		
-		
-		
 	}
 
 }
