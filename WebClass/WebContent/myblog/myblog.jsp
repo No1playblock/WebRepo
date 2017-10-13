@@ -44,7 +44,7 @@
 			
 	%>
     <form class="form-inline my-2 my-lg-0" id="LoginForm" >
-      <input class="form-control mr-sm-2" type="text" placeholder="ID" aria-label="ID" id="id" required>
+      <input class="form-control mr-sm-2" type="email" placeholder="ID" aria-label="ID" id="id" required>
       <input class="form-control mr-sm-2" type="password" placeholder="PWD" aria-label="PWD" id="pwd" required>
       <button class="btn btn-outline-warning my-2 my-sm-0" type="submit">Login</button>
     </form>
@@ -122,13 +122,14 @@
 		  		//console.log("start");
 			  var id = $("#id").val();		//document.getElementById("id").value
 			  var pwd = $("#pwd").val();
+			  
 		 	 console.log(id, pwd);
 		 	 
 		 	 //서버로 post 방식 전송(ajax)
 		 	 $.post("/WebClass/bloglogin",
 		 			 {id: id, pwd: pwd},
 		 			 function(data){
-		 				 
+		 				
 		 				if(data.error){
 		 					location.href = "/WebClass/myblog/myblog.jsp"
 		 				}else { 
@@ -137,6 +138,8 @@
 							var myModal = $('#myModal');
 							myModal.modal();
 							myModal.find('.modal-body').text('회원 가입시 오류가 발생하였습니다');
+							$('#pwd').val('');
+							
 		 				}
 		 			 });
 		 	 

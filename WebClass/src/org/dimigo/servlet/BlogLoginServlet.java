@@ -50,18 +50,15 @@ public class BlogLoginServlet extends HttpServlet {
 				String id = request.getParameter("id");
 				String pwd = request.getParameter("pwd");
 				System.out.printf("id : %s, pwd: %s\n", id, pwd);
-				
+				response.setContentType("application/json;charset=utf-8");
 				boolean check;
 				if(id.equals("test@naver.com"))
 					check = true;
 				else
 					check = false;
 				
-				
-				
-				response.setContentType("application/json;charset=utf-8");
+
 				PrintWriter out = response.getWriter();
-				
 				
 				//JSON Simple Library
 				Gson gson = new Gson();
@@ -83,12 +80,10 @@ public class BlogLoginServlet extends HttpServlet {
 					
 					session.setAttribute("user",  user);
 					
-					RequestDispatcher rd = request.getRequestDispatcher("myblog/myblog.jsp");
-					rd.forward(request, response);
+					
 				}else{
 					request.setAttribute("msg",  "error");
-					RequestDispatcher rd = request.getRequestDispatcher("myblog/myblog.jsp");
-					rd.forward(request, response);
+					
 				}
 	}
 
